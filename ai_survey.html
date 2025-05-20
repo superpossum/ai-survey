@@ -215,7 +215,7 @@ texts.forEach((_, i) => {
   results[`q${i + 1}`] = document.getElementById(`range${i}`).value;
 });
 
-fetch('https://script.google.com/macros/s/AKfycbxv7uw11hmtL-DXwvh4alBVQXhQD2ZzzYBMeNdFZgsrzf3LOoILWeFO8n9-HZNpB3W5/exec', {
+fetch('https://script.google.com/macros/s/AKfycbxbJkSc8oY8lM6pV3bTo29J5f9vUK6R9pIlXdQ2fJobR5Q6EdsBcAq_owWe5Nx0uMny/exec', {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify(results)
