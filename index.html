@@ -215,7 +215,7 @@ texts.forEach((_, i) => {
   results[`q${i + 1}`] = document.getElementById(`range${i}`).value;
 });
        
-const formData = new URLSearchParams();
+const formData = new FormData();
 formData.append("q1", results.q1);
 formData.append("q2", results.q2);
 formData.append("q3", results.q3);
