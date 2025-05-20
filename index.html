@@ -214,18 +214,26 @@ const results = {};
 texts.forEach((_, i) => {
   results[`q${i + 1}`] = document.getElementById(`range${i}`).value;
 });
+       
+const formData = new URLSearchParams();
+formData.append("q1", results.q1);
+formData.append("q2", results.q2);
+formData.append("q3", results.q3);
+formData.append("q4", results.q4);
+formData.append("q5", results.q5);
+formData.append("q6", results.q6);
 
 fetch('https://script.google.com/macros/s/AKfycbxbWFIOeGd5pBGaAqmqoD03Gpu1ER8q37pXkWB1IKZFYo4A5dNt13c8psZ35ML32nB6/exec', {
   method: "POST",
-  headers: { 
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify({ q1: 1, q2: 2, q3: 3, q4: 4, q5: 5, q6: 6 })
+ body: formData
 })
-  .then(res => alert("Спасибо за участие! Ответы записаны."))
-  .catch(err => alert("Ошибка. Попробуйте позже."));
-
-
+  .then(response => response.text())
+  .then(text => {
+    alert("Спасибо за участие!");
+  })
+  .catch(error => {
+    alert("Ошибка при отправке: " + error.message);
+  });
       }
     }
 
