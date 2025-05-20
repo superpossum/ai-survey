@@ -215,44 +215,32 @@ texts.forEach((_, i) => {
   results[`q${i + 1}`] = document.getElementById(`range${i}`).value;
 });
        
-const formData = new FormData();
-formData.append("q1", results.q1);
-formData.append("q2", results.q2);
-formData.append("q3", results.q3);
-formData.append("q4", results.q4);
-formData.append("q5", results.q5);
-formData.append("q6", results.q6);
-        
-
-const params = Object.keys(results)
+const params = Object
+  .keys(results)
   .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(results[key])}`);
-
-params.push('callback=surveyCallback');
-var script = document.createElement('script');
+    params.push('callback=surveyCallback');
+        
+const script = document.createElement('script');
 script.src = 'https://script.google.com/macros/s/AKfycbxX1Kod1-g1xlMko2AlVmQPSl8230UIYarVgJ_Vo5rh6sbH1vH0MdK_BiLql8IioDi9/exec' + params.join('&');
 document.body.appendChild(script);
 
-        function surveyCallback(response) {
-  if (response.status === 'OK') {
-    alert('Спасибо за участие!');
-    // при желании — сбросить ползунки или перезагрузить страницу:
-    window.location.reload();
-  } else {
-    alert('Ошибка отправки, попробуйте позже.');
-  }
+}
 
-      }
-    }
-
-    function prevPage(current) {
+function prevPage(current) {
       if (current > 0) {
         document.querySelectorAll('.page')[current].classList.remove('active');
         document.querySelectorAll('.page')[current - 1].classList.add('active');
-             }
+ }
 
 }
-
+  function surveyCallback(response) {
+    if (response.status === 'OK') {
+      alert('Спасибо за участие!');
+      window.location.reload();
+    } else {
+      alert('Ошибка при отправке, попробуйте позже.');
     }
+  }
   </script>
 </body>
 </html>
