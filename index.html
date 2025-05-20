@@ -207,25 +207,23 @@ function nextPage(current) {
     const pages = document.querySelectorAll('.page');
     pages[current].classList.remove('active');
 
-    // Если это не последний экран — просто листаем
     if (current + 1 < pages.length) {
       pages[current + 1].classList.add('active');
-      return;  // выходим, чтобы не выполнять код отправки
+      return;
     }
 
-    // Иначе — собираем ответы
+   
     const results = {};
     texts.forEach((_, i) => {
       results[`q${i+1}`] = document.getElementById(`range${i}`).value;
     });
 
-    // Формируем JSONP-параметры
+
     const params = Object
       .keys(results)
       .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(results[k])}`);
     params.push('callback=surveyCallback');
 
-    // Создаём <script> и отсылаем запрос
     const script = document.createElement('script');
     script.src = 'https://script.google.com/macros/s/AKfycbxX1Kod1-g1xlMko2AlVmQPSl8230UIYarVgJ_Vo5rh6sbH1vH0MdK_BiLql8IioDi9/exec'
                + '?' + params.join('&');
