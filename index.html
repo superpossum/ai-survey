@@ -221,7 +221,7 @@ const params = Object
     params.push('callback=surveyCallback');
         
 const script = document.createElement('script');
-script.src = 'https://script.google.com/macros/s/AKfycbxX1Kod1-g1xlMko2AlVmQPSl8230UIYarVgJ_Vo5rh6sbH1vH0MdK_BiLql8IioDi9/exec' + params.join('&');
+script.src = 'https://script.google.com/macros/s/AKfycbxX1Kod1-g1xlMko2AlVmQPSl8230UIYarVgJ_Vo5rh6sbH1vH0MdK_BiLql8IioDi9/exec' +  '?' + params.join('&');
 document.body.appendChild(script);
 
 }
