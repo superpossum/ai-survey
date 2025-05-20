@@ -177,18 +177,18 @@
 Как человек, который опасается любого новшества, хочется просто взять и запретить нейросети и их развитие. Но это неизбежно, поэтому надеюсь, что это будет хотя бы урегулировано в ближайшее время. Верю до конца, что многовековая история человечества не оборвётся на мне.`
       }
     ];
-
-    const container = document.getElementById("pages");
-    texts.forEach((text, i) => {
-      const page = document.createElement("div");
-      page.className = "page";
-      if (i === 0) page.classList.add("active");
-       page.innerHTML = `
+  const container = document.getElementById("pages");
+    
+  texts.forEach((text, i) => {
+    const page = document.createElement("div");
+    page.className = "page";
+    if (i === 0) page.classList.add("active");
+    page.innerHTML = `
       <h2>${text.title}</h2>
       <div class="text-block">${text.content}</div>
       <div class="slider-container">
         <label for="range${i}">Насколько этот текст кажется написанным человеком?</label>
-        <input type="range" id="range${i}" name="q${i + 1}" min="1" max="5" value="3">
+        <input type="range" id="range${i}" name="q${i+1}" min="1" max="5" value="3">
         <div class="slider-labels">
           <span>точно ИИ</span>
           <span>не могу определить</span>
@@ -196,33 +196,43 @@
         </div>
       </div>
       <div class="button-row">
-        <button onclick="prevPage(${i})" ${i === 0 ? "disabled style='opacity:0.5;cursor:default;'" : ""}>Назад</button>
+        <button onclick="prevPage(${i})" ${i===0 ? "disabled style='opacity:0.5;cursor:default;'" : ""}>Назад</button>
         <button onclick="nextPage(${i})">${i === texts.length - 1 ? "Завершить" : "Далее"}</button>
       </div>
     `;
     container.appendChild(page);
   });
 
-    function nextPage(current) {
-      const pages = document.querySelectorAll('.page');
+function nextPage(current) {
+    const pages = document.querySelectorAll('.page');
     pages[current].classList.remove('active');
-         if (current + 1 < pages.length) {
+
+    // Если это не последний экран — просто листаем
+    if (current + 1 < pages.length) {
       pages[current + 1].classList.add('active');
-      return;
+      return;  // выходим, чтобы не выполнять код отправки
     }
-        const params = Object
+
+    // Иначе — собираем ответы
+    const results = {};
+    texts.forEach((_, i) => {
+      results[`q${i+1}`] = document.getElementById(`range${i}`).value;
+    });
+
+    // Формируем JSONP-параметры
+    const params = Object
       .keys(results)
-      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(results[key])}`);
-    params.push('callback=surveyCallback'); 
+      .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(results[k])}`);
+    params.push('callback=surveyCallback');
 
-const script = document.createElement('script');
-script.src = 'https://script.google.com/macros/s/AKfycbxX1Kod1-g1xlMko2AlVmQPSl8230UIYarVgJ_Vo5rh6sbH1vH0MdK_BiLql8IioDi9/exec' +  '?' + params.join('&');
-document.body.appendChild(script);
-
-}
-
-function prevPage(current) {
-       const pages = document.querySelectorAll('.page');
+    // Создаём <script> и отсылаем запрос
+    const script = document.createElement('script');
+    script.src = 'https://script.google.com/macros/s/AKfycbxX1Kod1-g1xlMko2AlVmQPSl8230UIYarVgJ_Vo5rh6sbH1vH0MdK_BiLql8IioDi9/exec'
+               + '?' + params.join('&');
+    document.body.appendChild(script);
+  }
+ function prevPage(current) {
+    const pages = document.querySelectorAll('.page');
     if (current > 0) {
       pages[current].classList.remove('active');
       pages[current - 1].classList.add('active');
