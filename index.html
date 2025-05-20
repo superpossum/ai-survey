@@ -217,8 +217,10 @@ texts.forEach((_, i) => {
 
 fetch('https://script.google.com/macros/s/AKfycbxbWFIOeGd5pBGaAqmqoD03Gpu1ER8q37pXkWB1IKZFYo4A5dNt13c8psZ35ML32nB6/exec', {
   method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(results)
+  headers: { 
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({ q1: 1, q2: 2, q3: 3, q4: 4, q5: 5, q6: 6 })
 })
   .then(res => alert("Спасибо за участие! Ответы записаны."))
   .catch(err => alert("Ошибка. Попробуйте позже."));
